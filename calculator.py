@@ -1,35 +1,34 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
+from kivy.uix.label import Label
+
+
+BUTTONS_NAMES = [
+    ['7', '8', '9', '/'],
+    ['4', '5', '6', '*'],
+    ['1', '2', '3', '-'],
+    ['.', '0', '=', '+'],
+]
 
 
 class CalculatorApp(App):
     def build(self):
         self.expression = ""
 
-        # Define the layout
-        layout = BoxLayout(orientation='vertical')
+        grid = BoxLayout(orientation='vertical')
 
-        # Add the display
-        self.display = Button(text='0', font_size=24, size_hint=(1, 0.75))
-        layout.add_widget(self.display)
+        self.display = Label(text='0', font_size=24, size_hint=(1, 0.75))
+        grid.add_widget(self.display)
 
-        # Add buttons
-        buttons = [
-            ['7', '8', '9', '/'],
-            ['4', '5', '6', '*'],
-            ['1', '2', '3', '-'],
-            ['.', '0', '=', '+']
-        ]
+        for button_names_row in BUTTONS_NAMES:
+            grid_row = BoxLayout()
+            for button_name in button_names_row:
+                button = Button(text=button_name, font_size=24, on_press=self.on_button_press)
+                grid_row.add_widget(button)
+            grid.add_widget(grid_row)
 
-        for row in buttons:
-            h_layout = BoxLayout()
-            for label in row:
-                button = Button(text=label, font_size=24, on_press=self.on_button_press)
-                h_layout.add_widget(button)
-            layout.add_widget(h_layout)
-
-        return layout
+        return grid
 
     def on_button_press(self, instance):
         if instance.text == '=':
