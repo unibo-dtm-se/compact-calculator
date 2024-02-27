@@ -18,8 +18,8 @@ class CalculatorApp(App):
 
         grid = BoxLayout(orientation='vertical')
 
-        self.display = Label(text='0', font_size=24, size_hint=(1, 0.75))
-        grid.add_widget(self.display)
+        self._display = Label(text='0', font_size=24, size_hint=(1, 0.75))
+        grid.add_widget(self._display)
 
         for button_names_row in BUTTONS_NAMES:
             grid_row = BoxLayout()
@@ -30,16 +30,16 @@ class CalculatorApp(App):
 
         return grid
 
-    def on_button_press(self, instance):
-        if instance.text == '=':
+    def on_button_press(self, button):
+        if button.text == '=':
             try:
-                self.display.text = str(eval(self.expression))
+                self._display.text = str(eval(self.expression))
             except SyntaxError:
-                self.display.text = 'Error'
+                self._display.text = 'Error'
             self.expression = ""
         else:
-            self.expression += instance.text
-            self.display.text = self.expression
+            self.expression += button.text
+            self._display.text = self.expression
 
 
 if __name__ == '__main__':
